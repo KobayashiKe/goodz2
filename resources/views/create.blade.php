@@ -1,28 +1,23 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-    <h1 class="text-center mt-2 mb-5">画像アップロード</h1>
+    <h1 class="text-center mt-2 mb-5">新規作成</h1>
     <div class="container mb-5">
-        {{ Form::open(['route' => 'confirm', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+        <form action="/posts" method="POST">
             @csrf
-            <div class="form-group row">
-                <p class="col-sm-4 col-form-label">お名前</p>
-                <div class="col-sm-8">
-                    {{ Form::text('name', null, ['class' => 'form-control']) }}
-                </div>
+            <div class="title">
+                <h2>Title</h2>
+                <input type="text" name="post[title]" placeholder="タイトル" value="{{ old('post.title') }}"/>
+                <p class="title_error" style="color:red">{{ $errors->first('post.title') }}</p>
             </div>
-
-            <div class="form-group row">
-                <p class="col-sm-4 col-form-label">画像</p>
-                <div class="col-sm-8">
-                    {{ Form::file('image') }}
-                </div>
+            <div class="body">
+                <h2>Body</h2>
+                <textarea name="post[body]" placeholder="グッズの説明">{{ old('post.body') }}</textarea>
+                <p class="body_error" style="color:red">{{ $errors->first('post.body') }}</p>
             </div>
-
-            <div class="text-center">
-                {{ Form::submit('確認画面へ', ['class' => 'btn btn-primary']) }}
-            </div>
-        {{ Form::close() }}
+            <input type="submit" value="保存"/>
+        </form>
+        <div class="back">[<a href="/">back</a>]</div>
     </div>
 
 @endsection

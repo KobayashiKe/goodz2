@@ -24,7 +24,7 @@ class CreatePostsTable extends Migration
             */
             $table->bigIncrements('id');
             $table->string('title', 100);
-            $table->string('image');
+            //$table->string('image');
             $table->text('body');
             $table->timestamp('updated_at')->useCurrent()->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
