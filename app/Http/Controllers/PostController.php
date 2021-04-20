@@ -24,12 +24,24 @@ class PostController extends Controller
         return view('create');
     }
     
+    public function confirm()
+    {
+        return view('confirm');
+    }
+    
+    public function complete()
+    {
+        return view('complete');
+    }
+    
+    /*
     public function store(PostRequest $request, Post $post)
     {
         $input = $request['post'];
         $post->fill($input)->save();
         return redirect('/posts/' . $post->id);
     }
+    */
     
     public function edit(Post $post)
     {
