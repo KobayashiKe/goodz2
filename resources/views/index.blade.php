@@ -2,24 +2,27 @@
 
 @section('content')
 <div class="container">
-        @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-        @endif
-
-        <div class='posts'>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col" style="width:30%">グッズ名</th>
+                <th scope="col">画像</th>
+            </tr>
+        </thead>
+        
+        <tbody>
             @foreach ($posts as $post)
-            <div class='post'>
-                <h2 class='title'><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h2>
-                <p class='body'>{{ $post->body }}</p>
-            </div>
+            <tr>
+                <td><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></td>
+                <td><img src="{{ asset('img/'. $post->id . "/" . $post->image) }}</td>
+            </tr>
             @endforeach
-        </div>
+        </tbody>
         
         <div class='paginate'>
             {{ $posts->links() }}
         </div>        
+    </table>
 </div>
 @endsection
 

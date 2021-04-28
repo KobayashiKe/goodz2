@@ -6,24 +6,27 @@
         {{ Form::open(['route' => 'complete', 'method' => 'POST']) }}
             @csrf
             <div class="form-group row">
-                <p class="col-sm-4 col-form-label">お名前</p>
+                <p class="col-sm-4 col-form-label">グッズ名</p>
                 <div class="col-sm-8">
-
+                    {{ $title }}
                 </div>
+                <input type="hidden" name="title" value="{{ $title }}">
             </div>
             
             <div class="form-group row">
                 <p class="col-sm-4 col-form-label">画像</p>
                 <div class="col-sm-8">
-                    
+                    <img src="{{ $image }}" alt="">
                 </div>
+                <input type="hidden" name="image" value="{{ $newImageName }}">
             </div>
 
             <div class="form-group row">
                 <p class="col-sm-4 col-form-label">説明</p>
                 <div class="col-sm-8">
-                    
+                    {{ $body }}
                 </div>
+                <input type="hidden" name="body" value="{{ $body }}">
             </div>
 
             <div class="text-center">

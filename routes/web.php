@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('/index', 'PostController@index')->name('index');
 Route::get('/posts/create', 'PostController@create');
+//Route::post('/confirm', 'PostController@confirm')->name('confirm');
+//Route::post('/complete', 'PostController@complete')->name('complete');
 Route::post('/posts', 'PostController@store');
 Route::get('/posts/{post}', 'PostController@show');
 Route::get('/posts/{post}/edit', 'PostController@edit');

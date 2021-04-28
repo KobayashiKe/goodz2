@@ -24,13 +24,60 @@ class PostController extends Controller
         return view('create');
     }
     
-    public function confirm()
+    public function confirm(PostRequest $request)
     {
-        return view('confirm');
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required',
+            'body' => 'required',
+        ]);
+        
+        $title = $request->title;
+        $body = $request->body;
+        
+        //ファイル名取得
+        $imageName = $request->file('image')->getClientOriginalName();
+        
+        //拡張子のみ取得
+        $extension = $request->file('image')->getOriginalExtension();
+        
+        //新しいファイル名作成
+        $newImageName = pathInfo($imageName, PATHINFO_FILENAME). "_" . uniqid() . "." . $extension;
+        
+        $request->file('image')->move(public_path(). "/img/tmp", $newImageName);
+        $image = "/img/tmp" . $newImageName;
+        
+        return view('confirm', [
+            'title' => $title,
+            'image' => $image,
+            'newImageName' => $newImageName,
+            'body' => $body,
+        ]);
     }
     
-    public function complete()
+    public function complete(PostRequest $request)
     {
+        $uploader = new Post();
+        $uploader->title = $request->title;
+        $uploader->image = $request->image;
+        $uploader->body = $request->body;
+        $uploader->save();
+        
+        //idを取得
+        $lastInsertedId = $uploader->id;
+        
+        //ディレクトリ作成
+        if(!file_exists(public_path() . "/img/" . $lastInsertedId)) {
+            mkdir(public_path . "/img/" . $lastInsertedId, 0777);
+        }
+        
+        //一時保存場所→本番の格納場所へ
+        rename(public_path . "/img/tmp/" . $request->image, public_path() . "/img/" . $lastInsertedId . "/" . $request->image);
+        
+        //一時保存の画像を削除
+        \File::cleanDirectory(public_path() . "/img/tmp");
+        
+        
         return view('complete');
     }
     
